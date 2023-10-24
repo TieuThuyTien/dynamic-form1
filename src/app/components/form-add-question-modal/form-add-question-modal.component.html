@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>Add a New Question</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="d-block">
+      <mat-label>Answer format</mat-label>
+      <mat-select matNativeControl formControlName="controlType" (selectionChange)="changeType()">
+        <mat-option *ngFor="let type of qType" [value]="type.value">
+          {{type.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Type question here</mat-label>
+        <input matInput value="" formControlName="label">
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="form.value.controlType=='checkbox'">
+      <hr>
+      <p>Answer Options</p>
+      <div *ngIf="form.controls['answerOptions'].controls.length > 0">
+        <div *ngFor="let answerOption of form.controls['answerOptions'].controls">
+          <ng-container [formGroup]="toFormGroup(answerOption)">
+            <mat-form-field>
+              <mat-label>Add Answer Option</mat-label>
+              <input matInput value="" formControlName="value">
+            </mat-form-field>
+          </ng-container>
+        </div>
+      </div>
+
+      <button mat-button color="primary" (click)="addAnswerOption()">Add another answer</button>
+
+      <div>
+        <mat-checkbox [checked]="form.controls['other'].value" (change)="changeCheckbox('other', $event.checked)">Allow user to specify their own answer</mat-checkbox>
+      </div>
+    </div>
+
+    <mat-checkbox [checked]="form.controls.validators.controls.required.value"
+      (change)="changeCheckbox('required', $event.checked)">This field is required</mat-checkbox>
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial [disabled]="!form.valid" (click)="submit()">Submit</button>
+</div>

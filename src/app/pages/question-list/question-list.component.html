@@ -1,0 +1,8 @@
+<div class="form">
+    <div *ngFor="let q of questionList; let i = index;">
+      <app-form-control [form]="toFormGroup(formArray.controls[i])" [question]="q"></app-form-control>
+    </div>
+
+  <button mat-raised-button color="primary" (click)="addNewModalOpen()">Add New Question</button>
+  <button style="float: right;" mat-raised-button color="primary" (click)="review()" >Review Answer</button> 
+</div>

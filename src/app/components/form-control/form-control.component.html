@@ -1,0 +1,23 @@
+<form [formGroup]="form">
+  <p><b>{{ question.label }} {{question.validators?.required? '*' : ''}}</b></p>
+
+  <ng-container [ngSwitch]="question.controlType">
+    <div *ngSwitchCase="'text'">
+      <mat-form-field>
+        <textarea matInput [formControlName]="question.key"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div *ngSwitchCase="'checkbox'">
+      <div *ngFor="let option of question.answerOptions; let i = index">
+        <mat-checkbox [checked]="form.value[question.key].includes(option.key)" [value]="option.key" (change)="changeValue(question.key, option.key, $event.checked)">{{option.value}}</mat-checkbox>
+        
+        <div *ngIf="option.value == 'Other' && form.controls[question.key]?.value?.includes('Other')">
+          <mat-form-field>
+            <textarea matInput formControlName="other"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</form>

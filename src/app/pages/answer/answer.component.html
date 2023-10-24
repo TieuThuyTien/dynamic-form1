@@ -1,17 +1,22 @@
 <div class="form">
   <div *ngFor="let q of questionList">
-    <p><b>{{q.question}} {{q.require? "*" : ''}}</b></p>
-    <p *ngIf="q.type == 'text'">
-      {{q.value}}
-    </p>
-    <p *ngIf="q.type == 'checkbox'">
-      <ng-container *ngFor="let item of q.value">
-        <p>{{item}}</p>
-      </ng-container>
 
-    </p>
+    <p><b>- {{q.label}} {{q.label? "*" : ''}}</b></p>
+
+    <div [ngSwitch]="q.controlType">
+      <div *ngSwitchCase="'text'">
+        <p>{{q.value}}</p>
+      </div>
+
+      <div *ngSwitchCase="'checkbox'">
+        <ng-container *ngFor="let option of q.answerOptions">
+          <p *ngIf="q.value?.includes(option.key)">{{ option.value }}
+            <i *ngIf="option.key == 'Other' && q.value?.includes('Other')">: {{q.other.value}}</i>
+          </p>
+        </ng-container>
+      </div>
+    </div>
   </div>
 
   <button mat-raised-button color="primary" (click)="back()">Back</button>
-
 </div>

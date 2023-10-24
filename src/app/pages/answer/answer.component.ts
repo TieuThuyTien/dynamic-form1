@@ -12,7 +12,8 @@ export class AnswerComponent {
 
   constructor(
     private StoreService: StoreService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.StoreService.store.subscribe(res => {
       this.questionList = res;
     })
