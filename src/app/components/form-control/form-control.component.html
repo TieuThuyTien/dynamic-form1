@@ -10,7 +10,7 @@
 
     <div *ngSwitchCase="'checkbox'">
       <div *ngFor="let option of question.answerOptions; let i = index">
-        <mat-checkbox [checked]="form.value[question.key].includes(option.key)" [value]="option.key" (change)="changeValue(question.key, option.key, $event.checked)">{{option.value}}</mat-checkbox>
+        <mat-checkbox [checked]="form.value[question.key]?.includes(option.key)" [value]="option.key" (change)="changeValue(question.key, option.key, $event.checked)">{{option.value}}</mat-checkbox>
         
         <div *ngIf="option.value == 'Other' && form.controls[question.key]?.value?.includes('Other')">
           <mat-form-field>
